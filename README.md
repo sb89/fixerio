@@ -5,7 +5,7 @@ Fixerio
 [![Crates.io](https://img.shields.io/crates/v/fixerio.svg)](https://crates.io/crates/fixerio)
 [![Docs.rs](https://docs.rs/fixerio/badge.svg)](https://docs.rs/fixerio)
 
-A Rust wrapper for the Fixerio API.
+A Rust wrapper for the Fixerio API (http://fixer.io/).
 
 ## Installation
 Add the following to `Cargo.toml`:
