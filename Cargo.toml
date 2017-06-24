@@ -3,6 +3,13 @@ name = "fixerio"
 version = "0.1.0"
 authors = ["Steven Blake <s.blake.08@aberdeen.ac.uk>"]
 
+description = "An API wrapper for Fixerio."
+documentation = "https://docs.rs/fixerio"
+keywords = ["fixerio", "exchange", "api", "wrapper", "rates"]
+license = "MIT"
+homepage = "https://github.com/sb89/fixerio"
+repository = "https://github.com/sb89/fixerio.git"
+
 [dependencies]
 futures = "0.1"
 tokio-core = "0.1"
