@@ -45,11 +45,7 @@ impl Config {
 fn get_url(conf: &Config) -> hyper::Uri {
     let mut url = String::from("http://api.fixer.io/");
 
-    match conf.date {
-        Some(ref date) => url.push_str(&date),
-        None => url.push_str("latest"),
-    };
-
+    url.push_str(conf.date.as_ref().map(String::as_str).unwrap_or("latest"));
     url.push_str("?base=");
     url.push_str(conf.base.string());
 
