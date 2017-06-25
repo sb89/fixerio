@@ -4,14 +4,15 @@ use tokio_core::reactor::{Core, Handle, Timeout};
 use futures::future::{Future, result};
 use futures::Stream;
 use serde_json;
+use serde::de::{Deserialize, Deserializer};
 
 use std::cell::RefCell;
 use std::str;
 use std::time::Duration;
 
-use exchange::{Currency, Exchange};
+use exchange::{Currency, Exchange, Rates};
 use future::FixerioFuture;
-use errors::Error;
+use errors::{Error, ErrorKind};
 
 /// Configuration for requests.
 pub struct Config {
@@ -155,12 +156,21 @@ impl AsyncApi {
     pub fn get(&self, conf: &Config) -> FixerioFuture<Exchange> {
         let url = get_url(conf);
 
-        let future =
-            self.client
-                .get(url)
-                .and_then(|res| res.body().concat2())
-                .map_err(From::from)
-                .and_then(|bytes| result(serde_json::from_slice(&bytes).map_err(From::from)));
+        let response = self.client
+            .get(url)
+            .and_then(|res| res.body().concat2())
+            .map_err(From::from);
+
+        let future = response.and_then(|bytes| {
+            result(serde_json::from_slice(&bytes)
+                       .map_err(From::from)
+                       .and_then(|value| match value {
+                                     Response::Success(exchange) => Ok(exchange), 
+                                     Response::Error(err) => {
+                                         Err(ErrorKind::FixerioError { description: err }.into())
+                                     }
+                                 }))
+        });
 
         FixerioFuture::new(Box::new(future))
     }
@@ -240,6 +250,37 @@ impl SyncApi {
         let future = self.api.get_timeout(conf, duration);
 
         self.core.borrow_mut().run(future)
+    }
+}
+
+#[derive(Deserialize)]
+struct RawResponse {
+    error: Option<String>,
+    base: Option<String>,
+    date: Option<String>,
+    rates: Option<Rates>,
+}
+
+enum Response {
+    Error(String),
+    Success(Exchange),
+}
+
+impl<'de> Deserialize<'de> for Response {
+    fn deserialize<D>(deserializer: D) -> Result<Response, D::Error>
+        where D: Deserializer<'de>
+    {
+        let raw: RawResponse = Deserialize::deserialize(deserializer)?;
+
+        if let Some(err) = raw.error {
+            Ok(Response::Error(err))
+        } else {
+            Ok(Response::Success(Exchange {
+                                     base: raw.base.unwrap(),
+                                     date: raw.date.unwrap(),
+                                     rates: raw.rates.unwrap(),
+                                 }))
+        }
     }
 }
 

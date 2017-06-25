@@ -4,4 +4,10 @@ error_chain! {
         Json(::serde_json::Error);
         Io(::std::io::Error);
     }
+
+    errors {
+        FixerioError {
+            description: String
+        }
+    }
 }
