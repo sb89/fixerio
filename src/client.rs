@@ -70,7 +70,7 @@ impl AsyncApi {
     /// Create a new instance.
     pub fn new(handle: &Handle) -> Self {
         Self {
-            client: Client::new(&handle),
+            client: Client::new(handle),
             handle: handle.clone(),
         }
     }
@@ -114,7 +114,7 @@ impl AsyncApi {
             .map_err(From::from)
             .map(|_| None);
 
-        let get = self.get(conf).map(|x| Some(x));
+        let get = self.get(conf).map(Some);
 
         let future = timeout_future
             .select(get)
