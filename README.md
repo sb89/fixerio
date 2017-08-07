@@ -27,7 +27,7 @@ use std::time::Duration;
 fn main() {
   let api = SyncApi::new().expect("Error creating API");
 
-  let mut config = Config::new(Currency::USD);
+  let config = Config::new(Currency::USD);
   let rates = api.get(&config).expect("Error retrieving rates");
 
   println!("{:?}", rates);
