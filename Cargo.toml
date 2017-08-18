@@ -1,6 +1,6 @@
 [package]
 name = "fixerio"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Steven Blake <s.blake.08@aberdeen.ac.uk>"]
 
 description = "An API wrapper for Fixerio."

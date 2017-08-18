@@ -12,7 +12,7 @@ Add the following to `Cargo.toml`:
 
 ```toml
 [dependencies]
-fixerio = "0.1.0"
+fixerio = "0.1.2"
 ```
 
 ## Usage

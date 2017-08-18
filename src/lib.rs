@@ -7,7 +7,7 @@
 //!
 //! ```rust,ignore
 //! [dependencies]
-//! fixerio = "0.1.0"
+//! fixerio = "0.1.2"
 //! ```
 //!
 //! Synchronous example:
