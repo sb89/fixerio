@@ -22,7 +22,6 @@ Synchronous example:
 extern crate fixerio;
  
 use fixerio::{Config, Currency, SyncApi};
-use std::time::Duration;
 
 fn main() {
   let api = SyncApi::new().expect("Error creating API");
@@ -43,7 +42,6 @@ extern crate tokio_core;
 
 use fixerio::{Config, Currency, AsyncApi};
 use tokio_core::reactor::Core;
-use std::time::Duration;
 
 fn main() {
   let mut core = Core::new().expect("Error creating core");

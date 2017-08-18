@@ -17,12 +17,11 @@
 //! extern crate fixerio;
 //!
 //! use fixerio::{Config, Currency, SyncApi};
-//! use std::time::Duration;
 //!
 //! fn main() {
 //!     let api = SyncApi::new().expect("Error creating API");
 //!
-//!     let mut config = Config::new(Currency::USD);
+//!     let config = Config::new(Currency::USD);
 //!     let rates = api.get(&config).expect("Error retrieving rates");
 //!
 //!     println!("{:?}", rates);
@@ -38,7 +37,6 @@
 //!
 //! use fixerio::{Config, Currency, AsyncApi};
 //! use tokio_core::reactor::Core;
-//! use std::time::Duration;
 //!
 //! fn main() {
 //!     let mut core = Core::new().expect("Error creating core");
