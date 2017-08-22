@@ -69,3 +69,4 @@ mod errors;
 pub use self::client::{AsyncApi, SyncApi, Config};
 pub use self::exchange::{Currency, Exchange, Rates};
 pub use self::future::FixerioFuture;
+pub use self::errors::{Error, ErrorKind};
